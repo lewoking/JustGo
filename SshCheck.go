@@ -11,8 +11,8 @@ import (
 
 func main(){
     sshHost := "127.0.0.1"
-    sshUser := "lea"
-    sshPassword := "xxxxxx"
+    sshUser := "liujg"
+    sshPassword := "XXXXX"
     sshType := "password"//password 或者 key
     sshKeyPath := ""//ssh id_rsa.id 路径"
     sshPort := 22
