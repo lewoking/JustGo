@@ -1,3 +1,3 @@
-module hellobee
+module JustGo
 
 go 1.13
