@@ -1,5 +1,6 @@
 {
     "remotecmd": "whoami; cd /; ls -al;echo https://github.com/dejavuzhou/felix",
+    "check": true,
     "host": {
         "sshHost": "127.0.0.1",
         "sshUser": "liujg",

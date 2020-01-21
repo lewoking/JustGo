@@ -1,44 +1,39 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/mitchellh/go-homedir"
+	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh"
 	"io/ioutil"
 	"log"
 	"time"
 )
 
-//定义配置文件解析后的结构
-type hostcfg struct {
-	sshHost     string
-	sshUser     string
-	sshPassword string
-	sshType     string
-	sshKeyPath  string
-	sshPort     int
-}
-
-type Config struct {
-	remotecmd string
-	host      hostcfg
+func init() {
+	viper.SetConfigName("config") //指定配置文件的文件名称(不需要制定配置文件的扩展名)
+	//viper.AddConfigPath("/etc/appname/")   //设置配置文件的搜索目录
+	//viper.AddConfigPath("$HOME/.appname")  // 设置配置文件的搜索目录
+	viper.AddConfigPath(".")    // 设置配置文件和可执行二进制文件在用一个目录
+	err := viper.ReadInConfig() // 根据以上配置读取加载配置文件
+	if err != nil {
+		log.Fatal(err) // 读取配置文件失败致命错误
+	}
 }
 
 func main() {
-	JsonParse := NewJsonStruct()
-	v := Config{}
-	//下面使用的是相对路径，config.json文件和main.go文件处于同一目录下
-	JsonParse.Load("./config.json", &v)
-	fmt.Println(v.remotecmd)
-	fmt.Println(v.host.sshHost)
 
-	sshHost := "127.0.0.1"
-	sshUser := "liujg"
-	sshPassword := "read"
-	sshType := "password" //password 或者 key
-	sshKeyPath := ""      //ssh id_rsa.id 路径"
-	sshPort := 22
+	fmt.Println("获取配置文件的string", viper.GetString(`remotecmd`))
+	//fmt.Println("获取配置文件的string", viper.GetInt(`host.sshPort`))
+	//fmt.Println("获取配置文件的string", viper.GetBool(`check`))
+	//fmt.Println("获取配置文件的map[string]string", viper.GetStringMapString(`host`))
+
+	sshHost := viper.GetString(`host.sshHost`)
+	sshUser := viper.GetString(`host.sshUser`)
+	sshPassword := viper.GetString(`host.sshPassword`)
+	sshType := viper.GetString(`host.sshType`)       //password 或者 key
+	sshKeyPath := viper.GetString(`host.sshKeyPath`) //ssh id_rsa.id 路径"
+	sshPort := viper.GetInt(`host.sshPort`)
 
 	//创建sshp登陆配置
 	config := &ssh.ClientConfig{
@@ -68,7 +63,7 @@ func main() {
 	}
 	defer session.Close()
 	//执行远程命令
-	combo, err := session.CombinedOutput("whoami; cd /; ls -al;echo https://github.com/dejavuzhou/felix")
+	combo, err := session.CombinedOutput(viper.GetString(`remotecmd`))
 	if err != nil {
 		log.Fatal("远程执行cmd 失败", err)
 	}
@@ -91,25 +86,4 @@ func publicKeyAuthFunc(kPath string) ssh.AuthMethod {
 		log.Fatal("ssh key signer failed", err)
 	}
 	return ssh.PublicKeys(signer)
-}
-
-type JsonStruct struct {
-}
-
-func NewJsonStruct() *JsonStruct {
-	return &JsonStruct{}
-}
-
-func (jst *JsonStruct) Load(filename string, v interface{}) {
-	//ReadFile函数会读取文件的全部内容，并将结果以[]byte类型返回
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return
-	}
-
-	//读取的数据为json格式，需要进行解码
-	err = json.Unmarshal(data, v)
-	if err != nil {
-		return
-	}
 }
