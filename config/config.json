@@ -1,0 +1,31 @@
+{
+   
+    "host1": {
+        "sshHost": "127.0.0.1",
+        "sshUser": "liujg",
+        "sshPassword": "123456",
+        "sshType": "password",
+        "sshKeyPath": "",
+        "sshPort": 22,
+        "remotecmd": "whoami; cd /; ls -al;echo https://github.com/dejavuzhou/felix"
+    },
+    
+    "host2": {
+        "sshHost": "127.0.0.1",
+        "sshUser": "liujg",
+        "sshPassword": "123456",
+        "sshType": "password",
+        "sshKeyPath": "",
+        "sshPort": 22,
+        "remotecmd": "whoami; cd /; ls -al;echo https://github.com/dejavuzhou/felix"
+    },
+    "host3": {
+        "sshHost": "127.0.0.1",
+        "sshUser": "liujg",
+        "sshPassword": "123456",
+        "sshType": "password",
+        "sshKeyPath": "",
+        "sshPort": 22,
+        "remotecmd": "whoami; cd /; ls -al;echo https://github.com/dejavuzhou/felix"
+    }
+}
