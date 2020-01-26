@@ -1,0 +1,20 @@
+[
+    {
+        "Host": "127.0.0.1",
+        "User": "admin",
+        "Pwd": "123456",
+        "Type": "password",
+        "KeyPath": "",
+        "Port": 22,
+        "Rcmd": "whoami; cd /; ls -al;echo https://github.com/dejavuzhou/felix"
+    },
+    {
+        "Host": "127.0.0.2",
+        "User": "root",
+        "Pwd": "root",
+        "Type": "password",
+        "KeyPath": "",
+        "Port": 22,
+        "Rcmd": "whoami; cd /; ls -al;echo https://github.com/lewoking/JustGo"
+    }
+]
