@@ -25,7 +25,7 @@ type Website struct {
 func main() {
 	filePtr, err := os.Open("./config.json")
 	if err != nil {
-		fmt.Println("文件打开失败 [Err:%s]", err.Error())
+		fmt.Println("文件打开失败 [Err:]", err.Error())
 		return
 	}
 	defer filePtr.Close()
@@ -68,7 +68,7 @@ LABEL2:
 		addr := fmt.Sprintf("%s:%d", sshHost, sshPort)
 		sshClient, err := ssh.Dial("tcp", addr, config)
 		if err != nil {
-			log.Printf("创建ssh client 失败", err)
+			log.Printf("创建ssh client 失败:%s", err)
 			continue LABEL2
 		}
 		defer sshClient.Close()
