@@ -39,6 +39,7 @@ func main() {
 		fmt.Println("解码成功")
 		// fmt.Println(config)
 	}
+LABEL2:
 	for _, cfg := range config {
 		// fmt.Println(cfg)
 		v := reflect.ValueOf(cfg)
@@ -67,7 +68,8 @@ func main() {
 		addr := fmt.Sprintf("%s:%d", sshHost, sshPort)
 		sshClient, err := ssh.Dial("tcp", addr, config)
 		if err != nil {
-			log.Fatal("创建ssh client 失败", err)
+			log.Printf("创建ssh client 失败", err)
+			continue LABEL2
 		}
 		defer sshClient.Close()
 
